@@ -2,7 +2,7 @@ if getgenv().PMAO == true then return end
 getgenv().PMAO = true
 
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/S1?token=GHSAT0AAAAAADA7UJO2TNVRL27WYQOBKCUSZ7ABU7A"))()
-local Veynx = lib.new("Athos | Arcane Odyssey v1.2.8 [TEST]")
+local Veynx = lib.new("Athos | Arcane Odyssey v1 [TEST]")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
