@@ -2,7 +2,7 @@ if getgenv().PMAO == true then return end
 getgenv().PMAO = true
 
 local lib = loadstring(game:HttpGet("https://gist.githubusercontent.com/Idktbh12z/e557ec01b8234cccb7d88f2c12691a5a/raw/3824e26041944a83ec39ff0b033f994b1bbdbadd/UiLib.lua"))()
-local Veynx = lib.new("Snowy | Arcane Odyssey v1.2.8 [TEST]")
+local Veynx = lib.new("Athos | Arcane Odyssey v1.2.8 [TEST]")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -339,7 +339,7 @@ end)
 
 uiSecs.Discord:addButton("Join our discord!", function()
     local Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Discord%20Inviter/Source.lua"))()
-    Module.Join("https://discord.gg/3jtCm4M5pq")
+    Module.Join("https://discord.gg/S4dpMhaCcs")
 end)
 
 uiSecs.TP:addDropdown("Teleports", DropdownTpList, function(value)
