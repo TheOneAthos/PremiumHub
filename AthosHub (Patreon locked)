@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/Obfsucated.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/Obfsucated"))()
