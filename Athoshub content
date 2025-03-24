@@ -1,8 +1,9 @@
 if getgenv().PMAO == true then return end
 getgenv().PMAO = true
 
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/S1"))()
-local Veynx = lib.new("Athos | Arcane Odyssey v1.8 ")
+local lib = loadstring(game:HttpGet("https://gist.githubusercontent.com/Idktbh12z/e557ec01b8234cccb7d88f2c12691a5a/raw/3824e26041944a83ec39ff0b033f994b1bbdbadd/UiLib.lua"))()
+local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Idktbh12z/cheapmilk/refs/heads/main/Lib/ESPLib.lua"))()
+local Veynx = lib.new("Athos Hub | Arcane Odyssey v1.1")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -34,10 +35,10 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 
 local TpDebounce, FillDebounce, HecatePart, HoverFrameConnection = false, false, nil, nil
 
-local ModifiedMagic, ModifiedMelee, ModifiedWeapon = nil, nil, nil
+local ModifiedMagic, ModifiedMelee, ModifiedWeapon, ESPItemIsland = nil, nil, nil, nil
 local EpiESPGui = nil
 
-local DropdownTpList, MagicList, MeleeList, WeaponList = {}, {}, {}, {}
+local DropdownTpList, MagicList, MeleeList, WeaponList, RegisteredPieces = {}, {}, {}, {}, {}, {}
 
 local remotes = {
     "DealAttackDamage",
@@ -95,6 +96,13 @@ local var = {
     FishAnywhere = false,
 }
 
+local AllowedTypes = {
+	"BasePart",
+	"MeshPart",
+	"Part",
+    "Model"
+}
+
 local uiPages = {}
 local uiSecs = {}
 
@@ -122,6 +130,103 @@ uiSecs.FishExploits = uiPages.Exploits:addSection("Fish Exploits")
 uiSecs.MagicExploits = uiPages.Exploits:addSection("Magic Exploits")
 uiSecs.MeleeExploits = uiPages.Exploits:addSection("Melee Exploits")
 uiSecs.WepExploits = uiPages.Exploits:addSection("Weapon Exploits")
+
+local function ClearItemESP()
+    for _, entry in RegisteredPieces do
+		local part : Part, ui : BillboardGui = unpack(entry)
+		if not ui then continue end
+
+		ui:Destroy()
+	end
+	RegisteredPieces = {}
+end
+
+local function UnregisterItemESP()
+    for i, entry in RegisteredPieces do
+		local registeredPart : BasePart, ui : BillboardGui = unpack(entry)
+
+		if registeredPart ~= Part then continue end
+		if not ui then continue end
+
+		ui:Destroy()
+		table.remove(RegisteredPieces, i)
+		break
+	end
+end
+
+local function RegisterItemESP(Part: BasePart, Type: string)
+	if not Part then return end
+
+    if not table.find(AllowedTypes, Part.ClassName) then
+        return
+    end
+
+	for i, entry in RegisteredPieces do
+		local registeredPart : BasePart, ui: BillboardGui = unpack(entry)
+
+		if registeredPart == Part then return end
+	end
+
+	local UI = Instance.new("BillboardGui")
+	local Frame = Instance.new("Frame")
+	local TextLabel = Instance.new("TextLabel")
+	local UiStroke = Instance.new("UIStroke")
+
+	UI.Name = tostring(HttpService:GenerateGUID())
+	UI.Parent = Part or Part:FindFirstChildOfClass("Part") or Part.PrimaryPart
+	UI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	UI.Active = true
+	UI.AlwaysOnTop = true
+	UI.LightInfluence = 1.000
+	UI.Size = UDim2.new(0, 150, 0, 25)
+
+	UI.StudsOffset = Vector3.new(0, 1.5, 0)
+	UI.MaxDistance = math.huge
+
+	Frame.Parent = UI
+	Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Frame.BackgroundTransparency = 1.000
+	Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Frame.BorderSizePixel = 0
+	Frame.Size = UDim2.new(1, 0, 1, 0)
+
+	TextLabel.Parent = Frame
+	TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel.BackgroundTransparency = 1.000
+	TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	TextLabel.BorderSizePixel = 0
+	TextLabel.Size = UDim2.new(1, 0, 1, 0)
+	TextLabel.Font = Enum.Font.FredokaOne
+	TextLabel.TextColor3 = Color3.fromRGB(102, 102, 102)
+	TextLabel.TextScaled = true
+	TextLabel.TextSize = 14.000
+	TextLabel.TextWrapped = false
+
+	UiStroke.Color = Color3.new(255,255,255)
+	UiStroke.Parent = TextLabel
+
+    if Part:FindFirstChildOfClass("ProximityPrompt") then
+        local NameText = Part:FindFirstChildOfClass("ProximityPrompt").ObjectText
+
+        TextLabel.Text = NameText
+    elseif Type:lower() == "model" then
+        TextLabel.Text = Part.Parent.Name
+    else
+        TextLabel.Text = Part.Name
+    end
+
+	Part.Destroying:Connect(function()
+		UnregisterItemESP(Part)
+	end)
+
+    Part:GetPropertyChangedSignal("Transparency"):Connect(function()
+        if Part.Transparency < 1 then return end
+
+        UnregisterItemESP(Part)
+    end)
+
+    table.insert(RegisteredPieces, {Part, UI})
+end
 
 uiSecs.Godmode:addToggle("Godmode.", false, function(value)
     var["godmode"] = value
@@ -189,6 +294,40 @@ end)
 
 uiSecs.UI:addKeybind("Toggle UI.", Enum.KeyCode.Equals, function(value)
     Veynx:toggle()
+end)
+
+uiSecs.ItemExploits:addDropdown("Item ESP Selector", DropdownTpList, function(value)
+    if not Map:FindFirstChild(value) then return end
+
+    ESPItemIsland = Map:FindFirstChild(value)
+end)
+
+uiSecs.ItemExploits:addButton("Item ESP.", function(value)
+    if not ESPItemIsland then return end
+
+    for _, Folder in ESPItemIsland:GetChildren() do
+        if Folder.Name == "Herbs" then
+            for _,Herb in Folder:GetChildren() do
+                RegisterItemESP(Herb)
+            end
+        end
+
+        if Folder.Name == "Fruits" then
+            for _,Fruit in Folder:GetChildren() do
+                RegisterItemESP(Fruit)
+            end
+        end
+
+        if Folder.Name == "Chests" then
+            for _,Chest in Folder:GetChildren() do
+                RegisterItemESP(Chest:FindFirstChild("Base"))
+            end
+        end
+    end
+end)
+
+uiSecs.ItemExploits:addButton("Clear item ESP.", function(value)
+    ClearItemESP()
 end)
 
 uiSecs.ItemExploits:addButton("Quick fill empty bottles.", function(value)
