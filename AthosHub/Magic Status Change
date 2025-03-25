@@ -1,0 +1,17 @@
+    local RepairHook
+    RepairHook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+        local args = { ... }
+        local method = getnamecallmethod()
+
+        if not checkcaller() and tostring(self) == "DealAttackDamage" and method == "FireServer" then
+            if args[3] then
+                args[3] = "Flare Magic" -- DO NOT PUT CUSTOM MAGICS IN THIS OR YOU"LL BE INSTANTLY BANNED.
+            end
+
+            if args[4] then
+                args[4] = "1" -- If your magic has a variation this needs to be set to 1.
+            end
+        end
+
+        return RepairHook(self, unpack(args))
+    end))
