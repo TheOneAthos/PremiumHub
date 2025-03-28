@@ -1,1 +1,7 @@
+This first   (Remember to execute both especially if ur magic has a variant, if not it shouldn't really matter but execute both anyways)
+
+require(game.ReplicatedStorage.RS.Modules.Magic)["Types"]["Fire Magic"] = require(game.ReplicatedStorage.RS.Modules.Magic)["Types"]["Cataclysm Magic"]
+
+And then execute this one
+
 require(game.ReplicatedStorage.RS.Modules.Magic)["Types"]["Fire Magic"]["Variations"]["1"] = require(game.ReplicatedStorage.RS.Modules.Magic)["Types"]["Cataclysm Magic"]["Variations"]["1"]
