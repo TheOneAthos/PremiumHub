@@ -1,0 +1,1 @@
+require(game.ReplicatedStorage.RS.Modules.Magic)["Types"]["Your Magic Here"] = require(game.ReplicatedStorage.RS.Modules.Magic)["Types"]["Your wanted magic here."]
