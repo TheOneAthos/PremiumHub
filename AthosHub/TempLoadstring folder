@@ -1,1 +1,3 @@
- loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/AthosHub/whitelisting"))()
+Local HWIDTable = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/AthosHub/whitelisting"))()
+
+print(HWIDTable)
