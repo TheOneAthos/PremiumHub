@@ -1,0 +1,8 @@
+local module = require(game:GetService("ReplicatedStorage").RS.Modules.AttackClient)
+
+local originalSpeedMulti = module.SpeedMulti
+module.SpeedMulti = function(...)
+    local Args = { ... }
+    Args[2] = nil
+    return originalSpeedMulti(table.unpack(Args))
+end
