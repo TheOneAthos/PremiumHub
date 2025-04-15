@@ -1,0 +1,8 @@
+local args = {
+    [1] = workspace:WaitForChild("Enemies"):WaitForChild("King Calvus"),
+    [2] = workspace:WaitForChild("ur user"),
+    [3] = "Calvus Blast Crush",
+    [4] = 0/0
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RS"):WaitForChild("Remotes"):WaitForChild("Combat"):WaitForChild("DealBossDamage"):FireServer(unpack(args))
