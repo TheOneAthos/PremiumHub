@@ -54,6 +54,8 @@ local AnimationPacks = {
     "Cute",
     "Lazy",
     "Fighter",
+    "Sorcerer",
+    "Assassin",
 }
 
 for _, Folder in Map:GetChildren() do
