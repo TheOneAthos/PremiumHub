@@ -2,7 +2,7 @@ if getgenv().PMAO == true then return end
 getgenv().PMAO = true
 
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheOneAthos/PremiumHub/refs/heads/main/Lib/Lib%20stuff"))()
-local Veynx = lib.new("Athos Edit | ED Hub ")
+local Veynx = lib.new("Shadow Of Eden Menu ")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
